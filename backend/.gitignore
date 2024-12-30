@@ -1,4 +1,7 @@
-node_modules/
-dist/
-.env
-*.log
+/dist
+/tmp
+/out-tsc
+/node_modules
+*.db
+*.sqlite
+*.sqlite3

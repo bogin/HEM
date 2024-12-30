@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import corsOptions from './config/cors';
 import dotenv from 'dotenv';
 import personRoutes from './routes/person.routes';
 
@@ -8,7 +9,8 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.use(cors());
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 app.use('/api', personRoutes);
