@@ -18,7 +18,7 @@ export const usePersonStore = create<PersonState>((set) => ({
     fetchPersons: async () => {
         try {
             set({ loading: true, error: null });
-            const response = await fetch('http://localhost:3000/api/persons');
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/persons`);
             const data = await response.json();
             set({ persons: data.data, loading: false });
         } catch (error) {
