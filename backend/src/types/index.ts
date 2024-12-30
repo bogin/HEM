@@ -7,7 +7,7 @@ export interface Sample {
     id: number;
     person_id: number;
     timestamp: number;
-    sensor_data: number[];
+    data: number[];
 }
 
 export interface LazyLoadQuery {
