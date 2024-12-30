@@ -1,4 +1,3 @@
-import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Layout } from './components/Layout';
 import { PersonsView } from './views/PersonsView';
@@ -25,12 +24,13 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Layout />}>
                         <Route index element={<PersonsView />} />
-                        <Route path="dashboard" element={<DashboardView />} />
+                        <Route path="dashboard/:personId" element={<DashboardView />} />
                     </Route>
                 </Routes>
             </BrowserRouter>
-            <ReactQueryDevtools />
+            <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
     );
 }
+
 export default App;
