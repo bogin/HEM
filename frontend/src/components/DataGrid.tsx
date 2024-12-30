@@ -1,10 +1,10 @@
-import { GridConfig } from '../types';
+import { GridConfig } from '@/types';
 
 interface DataGridProps<T> {
     data: T[];
     config: GridConfig<T>;
     onRowClick?: (row: T) => void;
-    selectedRows?: number[];  // Add this prop
+    selectedRows?: number[];
 }
 
 export function DataGrid<T extends { id: number }>({ 

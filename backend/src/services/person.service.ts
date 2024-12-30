@@ -21,10 +21,6 @@ export class PersonService {
     async getPersonById(id: number): Promise<Person | null> {
         return personRepository.findById(id);
     }
-
-    async getPersonSamples(personId: number): Promise<Sample[]> {
-        return personRepository.findSamplesByPersonId(personId);
-    }
 }
 
 const personService = new PersonService();

@@ -1,5 +1,6 @@
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { MAX_SELECTED_PERSONS, useSelectedPersons } from '../hooks/usePersonQueries';
+import { useSelectedPersons } from '@/hooks/usePersonQueries';
+import { MAX_SELECTED_PERSONS } from '@/config/constants';
 
 export const Layout = () => {
     const location = useLocation();
@@ -43,7 +44,7 @@ export const Layout = () => {
                     </div>
                 </div>
             </nav>
-            <main className="max-w-7xl mx-auto py-6 px-4">
+            <main className="py-6 px-4">
                 <Outlet />
             </main>
         </div>

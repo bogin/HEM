@@ -1,14 +1,8 @@
-import { Person, GridConfig } from '../types';
-import { DataGrid } from '../components/DataGrid';
-import { Loading } from '../components/Loading';
-import { usePersons, useSelectedPersons, MAX_SELECTED_PERSONS } from '../hooks/usePersonQueries';
-
-const gridConfig: GridConfig<Person> = {
-    columns: [
-        { key: 'id', header: 'ID' },
-        { key: 'name', header: 'Name' }
-    ]
-};
+import { Person } from '@/types';
+import { DataGrid } from '@/components/DataGrid';
+import { Loading } from '@/components/Loading';
+import { usePersons, useSelectedPersons } from '@/hooks/usePersonQueries';
+import { gridConfig, MAX_SELECTED_PERSONS } from '@/config/constants';
 
 export const PersonsView = () => {
     const { data: persons, isLoading, error } = usePersons();
@@ -19,7 +13,11 @@ export const PersonsView = () => {
     };
 
     if (isLoading) return <Loading />;
-    if (error) return <div>Error loading persons</div>;
+    if (error) return (
+        <div className="text-red-500 text-center">
+            Error loading persons. <button onClick={() => window.location.reload()}>Retry</button>
+        </div>
+    );
     if (!persons) return null;
 
     return (
@@ -35,12 +33,14 @@ export const PersonsView = () => {
                         {selectedPersons.map(person => (
                             <div
                                 key={person.id}
-                                className="flex items-center bg-blue-50 text-blue-700 px-3 py-1 rounded-full"
+                                className="flex items-center bg-blue-50 text-blue-700 px-3 py-1 rounded-full truncate"
+                                title={person.name}
                             >
                                 <span>{person.name}</span>
                                 <button
                                     onClick={() => togglePersonSelection(person)}
                                     className="ml-2 text-blue-500 hover:text-blue-700"
+                                    aria-label={`Deselect ${person.name}`}
                                 >
                                     ×
                                 </button>
