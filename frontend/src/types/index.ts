@@ -1,6 +1,7 @@
 export interface Person {
     id: number;
     name: string;
+    age: number;
 }
 
 export interface GridConfig<T> {
@@ -15,3 +16,16 @@ export interface WebSocketConnection {
     status: 'connecting' | 'connected' | 'error';
     socket?: WebSocket;
 }
+
+export interface WebSocketData {
+    timestamp: number;
+    data: string;
+}
+
+export interface WebSocketMessage {
+    personId: number;
+    timestamp: number;
+    data: string;
+}
+
+export type MessageCallback = (data: WebSocketMessage) => void;
