@@ -29,3 +29,11 @@ export interface WebSocketMessage {
 }
 
 export type MessageCallback = (data: WebSocketMessage) => void;
+
+export interface SensorStat {
+    avg: number;
+    std: number;
+    min: number;
+    max: number;
+    samples: number;
+}

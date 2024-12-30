@@ -21,3 +21,10 @@ export const gridConfig: GridConfig<Person> = {
         { key: 'age', header: 'Age' }
     ]
 };
+
+export const SENSOR_COLORS = [
+    "#8884d8", "#82ca9d", "#ffc658", "#ff7300", "#0088FE",
+    "#00C49F", "#FFBB28", "#FF8042", "#a4de6c", "#d0ed57",
+    "#8e44ad", "#3498db", "#e74c3c", "#2ecc71", "#f1c40f",
+    "#9b59b6", "#34495e", "#1abc9c", "#e67e22"
+];

@@ -1,10 +1,25 @@
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useSelectedPersons } from '@/hooks/usePersonQueries';
 import { MAX_SELECTED_PERSONS } from '@/config/constants';
+import { useState } from 'react';
 
 export const Layout = () => {
     const location = useLocation();
+    const navigate = useNavigate();
     const { selectedPersons } = useSelectedPersons();
+    const [isNavigating, setIsNavigating] = useState(false);
+
+    const handleNavigation = async (path: string) => {
+        if (isNavigating) return;
+        if (location.pathname === path) return;
+
+        setIsNavigating(true);
+        try {
+            await navigate(path);
+        } finally {
+            setTimeout(() => setIsNavigating(false), 500);
+        }
+    };
 
     return (
         <div className="min-h-screen bg-gray-100">
@@ -12,28 +27,30 @@ export const Layout = () => {
                 <div className="max-w-7xl mx-auto px-4">
                     <div className="flex h-16 items-center justify-between">
                         <div className="flex space-x-4">
-                            <Link 
-                                to="/" 
-                                className={`${
-                                    location.pathname === '/' 
-                                    ? 'text-blue-600' 
+                            <button
+                                onClick={() => handleNavigation('/')}
+                                disabled={isNavigating}
+                                className={`${location.pathname === '/'
+                                    ? 'text-blue-600'
                                     : 'text-gray-600 hover:text-blue-600'
-                                } px-3 py-2 text-sm font-medium`}
+                                    } px-3 py-2 text-sm font-medium ${isNavigating ? 'opacity-50 cursor-not-allowed' : ''
+                                    }`}
                             >
                                 Persons
-                            </Link>
+                            </button>
                             {selectedPersons.map(person => (
-                                <Link 
+                                <button
                                     key={person.id}
-                                    to={`/dashboard/${person.id}`}
-                                    className={`${
-                                        location.pathname === `/dashboard/${person.id}` 
-                                        ? 'text-blue-600' 
+                                    onClick={() => handleNavigation(`/dashboard/${person.id}`)}
+                                    disabled={isNavigating}
+                                    className={`${location.pathname === `/dashboard/${person.id}`
+                                        ? 'text-blue-600'
                                         : 'text-gray-600 hover:text-blue-600'
-                                    } px-3 py-2 text-sm font-medium`}
+                                        } px-3 py-2 text-sm font-medium ${isNavigating ? 'opacity-50 cursor-not-allowed' : ''
+                                        }`}
                                 >
                                     {person.name}'s Dashboard
-                                </Link>
+                                </button>
                             ))}
                         </div>
                         {selectedPersons.length > 0 && (
