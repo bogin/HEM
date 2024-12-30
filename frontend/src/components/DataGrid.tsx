@@ -15,7 +15,7 @@ export function DataGrid<T>({ data, config, onRowClick }: DataGridProps<T>) {
                     <tr>
                         {config.columns.map((column) => (
                             <th
-                                key={column.key}
+                                key={String(column.key)}
                                 className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                             >
                                 {column.header}
@@ -27,12 +27,23 @@ export function DataGrid<T>({ data, config, onRowClick }: DataGridProps<T>) {
                     {data.map((row, idx) => (
                         <tr 
                             key={idx}
-                            onClick={() => onRowClick?.(row)}
-                            className="hover:bg-gray-50 cursor-pointer"
+                            onClick={() => onRowClick && onRowClick(row)}
+                            className={`
+                                hover:bg-gray-50 
+                                ${onRowClick ? 'cursor-pointer' : ''}
+                                transition-colors duration-150 ease-in-out
+                            `}
+                            role="button"
+                            tabIndex={0}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter' && onRowClick) {
+                                    onRowClick(row);
+                                }
+                            }}
                         >
                             {config.columns.map((column) => (
                                 <td
-                                    key={column.key}
+                                    key={String(column.key)}
                                     className="px-6 py-4 whitespace-nowrap text-sm text-gray-900"
                                 >
                                     {String(row[column.key])}

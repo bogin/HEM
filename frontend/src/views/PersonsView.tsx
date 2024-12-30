@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react';
 import { Person, GridConfig } from '../types';
 import { DataGrid } from '../components/DataGrid';
 import { Loading } from '../components/Loading';
-import { usePersonStore } from '../stores/personStore'; 
+import { usePersons, useSelectedPerson } from '../hooks/usePersonQueries';
 
 const gridConfig: GridConfig<Person> = {
     columns: [
@@ -12,25 +11,12 @@ const gridConfig: GridConfig<Person> = {
 };
 
 export const PersonsView = () => {
-    const { 
-        persons, 
-        selectedPerson, 
-        loading, 
-        error,
-        fetchPersons, 
-        selectPerson 
-    } = usePersonStore();
+    const { data: persons, isLoading, error } = usePersons();
+    const { selectedPerson, setSelectedPerson } = useSelectedPerson();
 
-    useEffect(() => {
-        fetchPersons();
-    }, [fetchPersons]);
-
-    if (loading) return <Loading />;
-    if (error) return (
-        <div className="text-red-500 text-center p-4">
-            Error: {error}
-        </div>
-    );
+    if (isLoading) return <Loading />;
+    if (error) return <div>Error loading persons</div>;
+    if (!persons) return null;
 
     return (
         <div className="space-y-6">
@@ -40,18 +26,20 @@ export const PersonsView = () => {
                         Selected: {selectedPerson.name} (ID: {selectedPerson.id})
                     </div>
                     <button
-                        onClick={() => selectPerson(null)}
-                        className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                        onClick={() => setSelectedPerson(null)}
+                        className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition-colors"
                     >
                         Remove
                     </button>
                 </div>
             )}
-            <DataGrid 
-                data={persons} 
-                config={gridConfig} 
-                onRowClick={selectPerson}
-            />
+            <div className="bg-white shadow rounded-lg overflow-hidden">
+                <DataGrid
+                    data={persons}
+                    config={gridConfig}
+                    onRowClick={setSelectedPerson}
+                />
+            </div>
         </div>
     );
 };
